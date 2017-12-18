@@ -1,5 +1,6 @@
-ip addr add \$ip/\$mask dev \$interface
+ip addr add $ip/$mask dev $interface
 
-if [ "\$router" ]; then
-  ip route add default via \$router dev \$interface
+if [ "$router" ]; then
+  #ip route add default via $router dev $interface
+  route add default gw $router $interface
 fi
