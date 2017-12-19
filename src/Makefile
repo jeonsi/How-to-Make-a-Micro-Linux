@@ -7,17 +7,17 @@ help:
 	@echo ""
 	@echo
 
-all: kernel busybox rootfs isoimage
+all: kernel busybox rootfs isoimage buildroot
 
 kernel:
 	@echo "Building Kernel"
 	@mkdir -pv out
-	@rm -rf out/linux-4.13.3
-	@tar -xf packages/linux-4.13.3.tar.xz -C out
-	make -C out/linux-4.13.3 mrproper
-	make -C out/linux-4.13.3 defconfig
-	@sed -i "s/.*CONFIG_DEFAULT_HOSTNAME.*/CONFIG_DEFAULT_HOSTNAME=\""$(HOSTNAME)"\"/" out/linux-4.13.3/.config
-	make -C out/linux-4.13.3 bzImage -j $(PARALLEL_JOBS)
+	@rm -rf out/linux-4.11.3
+	@tar -xf packages/linux-4.11.3.tar.xz -C out
+	make -C out/linux-4.11.3 mrproper
+	make -C out/linux-4.11.3 defconfig
+	@sed -i "s/.*CONFIG_DEFAULT_HOSTNAME.*/CONFIG_DEFAULT_HOSTNAME=\""$(HOSTNAME)"\"/" out/linux-4.11.3/.config
+	make -C out/linux-4.11.3 bzImage -j $(PARALLEL_JOBS)
 
 busybox:
 	@echo "Building Busybox"
@@ -49,14 +49,16 @@ buildroot:
 	@rm -rf out/buildroot-2017.11
 	@tar -xf packages/buildroot-2017.11.tar.bz2 -C out
 	make -C out/buildroot-2017.11 clean
-	make -C out/buildroot-2017.11 qemu_x86_64_defconfig
+	@cp my_qemu_x86_64_defconfig out/buildroot-2017.11/configs
+	make -C out/buildroot-2017.11 my_qemu_x86_64_defconfig
+	@cp -R ~/dl out/buildroot-2017.11
 	make -C out/buildroot-2017.11
 
 isoimage:
 	@echo "Building ISO image"
 	@rm -rf out/isoimage out/syslinux-6.03
 	@mkdir -p out/isoimage
-	@cp out/linux-4.13.3/arch/x86/boot/bzImage out/isoimage/vmlinuz
+	@cp out/linux-4.11.3/arch/x86/boot/bzImage out/isoimage/vmlinuz
 	@cd out/rootfs && find . | cpio -R root:root -H newc -o | gzip > ../isoimage/initrd.gz
 	@tar -xf packages/syslinux-6.03.tar.xz -C out
 	@cp out/syslinux-6.03/bios/core/isolinux.bin out/isoimage
