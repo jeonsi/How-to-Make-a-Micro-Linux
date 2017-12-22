@@ -52,6 +52,7 @@ buildroot:
 	@cp my_qemu_x86_64_defconfig out/buildroot-2017.11/configs
 	make -C out/buildroot-2017.11 my_qemu_x86_64_defconfig
 	@cp -R ~/dl out/buildroot-2017.11
+	@cp linux-4.11.config out/buildroot-2017.11/board/qemu/x86_64
 	make -C out/buildroot-2017.11
 
 isoimage:
