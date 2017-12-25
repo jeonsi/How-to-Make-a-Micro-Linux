@@ -3,7 +3,7 @@ PARALLEL_JOBS=`cat /proc/cpuinfo | grep cores | wc -l `
 
 help:
 	@echo "Makefile for Building Micro Linux."
-	@echo "Usage: make [ all | kernel | busybox | rootfs | isoimage | run | clean | help ] "
+	@echo "Usage: make [ all | buildroot | kernel | busybox | rootfs | isoimage | run | clean | help ] "
 	@echo ""
 	@echo
 
