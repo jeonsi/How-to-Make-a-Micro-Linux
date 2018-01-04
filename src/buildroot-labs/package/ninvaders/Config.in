@@ -1,0 +1,8 @@
+config BR2_PACKAGE_NINVADERS
+	bool "ninvaders"
+	depends on BR2_INSTALL_LIBSTDCPP
+	select BR2_PACKAGE_NCURSES
+	help
+	  ninvaders is a console game
+
+	  http://downloads.sourceforge.net/project/ninvaders/ninvaders/0.1.1/
